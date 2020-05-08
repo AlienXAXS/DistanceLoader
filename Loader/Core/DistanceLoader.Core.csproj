@@ -49,6 +49,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cheats\CheatHandler.cs" />
+    <Compile Include="Cheats\FlyHack.cs" />
+    <Compile Include="Cheats\CheatDefinition.cs" />
     <Compile Include="Harmony\Distance\CheatMenuPatch.cs" />
     <Compile Include="Harmony\Distance\CheatCodeLogicPatch.cs" />
     <Compile Include="Harmony\GenericPatches\NOP.cs" />

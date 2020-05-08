@@ -22,21 +22,21 @@ namespace DistanceLoader.Loader.Core
                 Directory.CreateDirectory(appData);
                 
                 // Alloc a new console for us, to output random guff to
-                if (File.Exists(Path.Combine(appData, "DEBUG_MODE"))) ;
+                if (File.Exists(Path.Combine(appData, "DEBUG_MODE")))
                 {
-
-                    Util.Logger.Instance.Log($"[MainThread] Waiting for main menu");
-                    //while (ApplicationEx.LoadedLevelName_ != "MainMenu")
-                    //    Thread.Sleep(500);
-
-                    Util.Logger.Instance.Log($"[MainThread] Main Menu Detected!");
-
-                    Util.Logger.Instance.Log($"[MainThread] Creating new patchmanager");
-                    var harmonyDistancePatcher = new DistanceLoader.Core.Harmony.PatchManager();
-
-                    Util.Logger.Instance.Log($"[MainThread] Starting patching");
-                    harmonyDistancePatcher.BeginPatching();
+                    Util.Logger.Instance.Log("DML Is loading in Debug Mode!");
+                    Util.Configuration.Instance.IsDebug = true;
                 }
+
+                Util.Logger.Instance.Log($"[MainThread] Creating new patchmanager");
+                var harmonyDistancePatcher = new DistanceLoader.Core.Harmony.PatchManager();
+
+                Util.Logger.Instance.Log($"[MainThread] Starting patching");
+                harmonyDistancePatcher.BeginPatching();
+
+                Util.Logger.Instance.Log("[MainThread] Starting Cheat Engine");
+                var cheatEngine = new DistanceLoader.Core.Cheats.CheatHandler();
+                cheatEngine.LoadCheats();
             }
             catch (Exception ex)
             {

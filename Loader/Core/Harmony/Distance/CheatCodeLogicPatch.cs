@@ -13,10 +13,10 @@ namespace DistanceLoader.Core.Harmony.Distance
         {
             var inputManager_ = G.Sys.InputManager_;
             var menuPanelManager_ = G.Sys.MenuPanelManager_;
-
+            
             var allCheatCodes_ = ___allCheatCodes_;
             var invalidateAll_ = ___invalidateAll_;
-            
+
             if (!inputManager_.GetKey(InputAction.MenuPageLeft, -2) || !inputManager_.GetKey(InputAction.MenuPageRight, -2) || menuPanelManager_.IsOneAboveRoot())
             {
                 invalidateAll_ = true;
