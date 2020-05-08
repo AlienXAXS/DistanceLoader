@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XInputDotNetPure", "XInputDotNetPure\XInputDotNetPure.csproj", "{AC136846-B4F9-4917-8FC7-E640F8146DA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Loader", "Loader", "{55D05C8A-4B3A-47C0-A542-3DCC4377A6A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistanceLoader.Core", "Loader\Core\DistanceLoader.Core.csproj", "{AFC16368-C573-4464-8B16-74FAF4017F91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistanceLoader.Util", "Util\DistanceLoader.Util.csproj", "{AFC16368-C573-4464-8B17-74FAF4017F91}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC136846-B4F9-4917-8FC7-E640F8146DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC136846-B4F9-4917-8FC7-E640F8146DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC136846-B4F9-4917-8FC7-E640F8146DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC136846-B4F9-4917-8FC7-E640F8146DA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC16368-C573-4464-8B16-74FAF4017F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC16368-C573-4464-8B16-74FAF4017F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC16368-C573-4464-8B16-74FAF4017F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC16368-C573-4464-8B16-74FAF4017F91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC16368-C573-4464-8B17-74FAF4017F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC16368-C573-4464-8B17-74FAF4017F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC16368-C573-4464-8B17-74FAF4017F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC16368-C573-4464-8B17-74FAF4017F91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AFC16368-C573-4464-8B16-74FAF4017F91} = {55D05C8A-4B3A-47C0-A542-3DCC4377A6A5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {269DD5E1-8ABE-4024-BF72-616783B7C1AD}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\Program Files (x86)\Steam\steamapps\common\Distance\Distance_Data\Managed\XInputDotNetPure.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AC136846-B4F9-4917-8FC7-E640F8146DA8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>XInputDotNetPure</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>XInputDotNetPure</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="DistanceLoaderInit.cs" />
+    <Compile Include="Imports.cs" />
+    <Compile Include="ButtonState.cs" />
+    <Compile Include="GamePadButtons.cs" />
+    <Compile Include="GamePadDPad.cs" />
+    <Compile Include="GamePadThumbSticks.cs" />
+    <Compile Include="GamePadTriggers.cs" />
+    <Compile Include="GamePadState.cs" />
+    <Compile Include="PlayerIndex.cs" />
+    <Compile Include="GamePadDeadZone.cs" />
+    <Compile Include="GamePad.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Loader\Core\DistanceLoader.Core.csproj">
+      <Project>{afc16368-c573-4464-8b16-74faf4017f91}</Project>
+      <Name>DistanceLoader.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Util\DistanceLoader.Util.csproj">
+      <Project>{afc16368-c573-4464-8b17-74faf4017f91}</Project>
+      <Name>DistanceLoader.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y $(TargetDir)*.* "C:\Program Files (x86)\Steam\steamapps\common\Distance\Distance_Data\Managed\"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>start /min C:\Users\AlienX\Documents\GitHub\DistanceLoader\lib\KillDistance.bat</PreBuildEvent>
+  </PropertyGroup>
+</Project>
