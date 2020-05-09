@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using DistanceLoader.Core.Harmony;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

@@ -29,7 +29,7 @@ namespace DistanceLoader.Util
 
                     if (exception != null)
                     {
-
+                        System.IO.File.AppendAllText(LogFileName, $"{exception}{Environment.NewLine}");
                     }
                 }
                 catch (Exception ex)

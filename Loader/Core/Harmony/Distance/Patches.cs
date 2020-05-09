@@ -34,6 +34,10 @@ namespace DistanceLoader.Core.Harmony.Distance
                     AccessTools.Method(typeof(CheatCodeLogic), "UnlockAllLevels"),
                     AccessTools.Method(typeof(CheatCodeLogicPatch), "UnlockAllLevels"));
 
+                patchWrapper.NewPrefixPatch(
+                    AccessTools.Method(typeof(AkGameObj), "Update"),
+                    AccessTools.Method(typeof(AkGameObjectPatch), "Update"));
+
                 Util.Logger.Instance.Log($"[ApplyPatches] Applying them via Harmony now");
                 return patchWrapper.ApplyPatches();
             }
