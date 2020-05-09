@@ -52,9 +52,11 @@
     <Compile Include="Cheats\CheatHandler.cs" />
     <Compile Include="Cheats\FlyHack.cs" />
     <Compile Include="Cheats\CheatDefinition.cs" />
+    <Compile Include="Cheats\HealthHack.cs" />
     <Compile Include="Harmony\Distance\AkGameObjectPatch.cs" />
     <Compile Include="Harmony\Distance\CheatMenuPatch.cs" />
     <Compile Include="Harmony\Distance\CheatCodeLogicPatch.cs" />
+    <Compile Include="Harmony\Distance\SharpObjectPatch.cs" />
     <Compile Include="Harmony\GenericPatches\NOP.cs" />
     <Compile Include="Harmony\Distance\Patches.cs" />
     <Compile Include="Harmony\GUITester.cs" />

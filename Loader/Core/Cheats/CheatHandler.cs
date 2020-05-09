@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 
 namespace DistanceLoader.Core.Cheats
 {
@@ -24,6 +25,29 @@ namespace DistanceLoader.Core.Cheats
 
             var cheatDetectionThread = new Thread(DetectCheat) { IsBackground = true };
             cheatDetectionThread.Start();
+
+
+
+            var waitForPlayerThread = new Thread(WaitForPlayer);
+            waitForPlayerThread.IsBackground = true;
+            waitForPlayerThread.Start();
+
+        }
+
+        private void WaitForPlayer()
+        {
+            Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Waiting for player car to be ready.");
+            while (G.Sys.PlayerManager_?.Current_?.playerData_?.LocalCar_ == null)
+            {
+                Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Tick");
+                Thread.Sleep(1000);
+            }
+            Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Player vehicle found");
+
+            // Add monobehavour cheats
+            GameObject gameObject = new GameObject("HealthHack");
+            UnityEngine.Object.DontDestroyOnLoad((UnityEngine.Object)gameObject);
+            gameObject.AddComponent<HealthHack>();
         }
 
         private void DetectCheat()
@@ -31,8 +55,6 @@ namespace DistanceLoader.Core.Cheats
             var inputManager = G.Sys.InputManager_;
             var cheatCanActive = false;
             var expectKeyUp = false;
-
-
 
             while (!isShutdown)
             {

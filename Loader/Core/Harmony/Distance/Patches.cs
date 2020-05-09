@@ -38,6 +38,10 @@ namespace DistanceLoader.Core.Harmony.Distance
                     AccessTools.Method(typeof(AkGameObj), "Update"),
                     AccessTools.Method(typeof(AkGameObjectPatch), "Update"));
 
+                patchWrapper.NewPrefixPatch(
+                    AccessTools.Method(typeof(SharpObject), "WasSharpEdgeHit"),
+                    AccessTools.Method(typeof(SharpObjectPatch), "WasSharpEdgeHit"));
+
                 Util.Logger.Instance.Log($"[ApplyPatches] Applying them via Harmony now");
                 return patchWrapper.ApplyPatches();
             }
