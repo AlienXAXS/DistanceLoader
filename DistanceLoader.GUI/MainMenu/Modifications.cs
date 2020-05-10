@@ -4,11 +4,47 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Exception = System.Exception;
+using Object = UnityEngine.Object;
 
 namespace DistanceLoader.GUI.MainMenu
 {
     public class Modifications
     {
+
+        public static void MoveMenuButtonsAndLogo()
+        {
+            var distanceLogo = GameObject.Find("DistanceTitle").GetComponent<UILabel>();
+            distanceLogo.transform.localPosition = new Vector3(-600f, 150f);
+            distanceLogo.topAnchor = new UIRect.AnchorPoint(30f);
+            distanceLogo.rightAnchor = new UIRect.AnchorPoint(0);
+            distanceLogo.leftAnchor = new UIRect.AnchorPoint(0) ;
+            distanceLogo.bottomAnchor = new UIRect.AnchorPoint(0);
+
+            var rootGo = GameObject.Find("DistanceTitle");
+            while (rootGo.Parent() != null)
+            {
+                DistanceLoader.Util.Logger.Instance.Log($"##################################### {rootGo.name} {rootGo.GetType()}");
+
+                var components = new List<Component>();
+                foreach (var comp in rootGo.GetComponents<UnityEngine.Component>())
+                {
+                    DistanceLoader.Util.Logger.Instance.Log($"#####################################  -> Componment -> {comp.name} {comp.GetType()}");
+                }
+
+                rootGo = rootGo.Parent();
+            }
+
+            var mainPanel = GameObject.Find("MainButtonsPanel").GetComponent<UIPanel>();
+            DistanceLoader.Util.Logger.Instance.Log($"########## {mainPanel.name} Position:{mainPanel.transform.position} LocalPosition:{mainPanel.transform.localPosition} AnchorPosition:{mainPanel.topAnchor.rect}|{mainPanel.topAnchor.target.position} Size:{mainPanel.width}x{mainPanel.height}");
+            mainPanel.transform.localPosition = new Vector3(-500f, 40f);
+            mainPanel.topAnchor = new UIRect.AnchorPoint(0);
+            mainPanel.rightAnchor = new UIRect.AnchorPoint(0);
+            mainPanel.leftAnchor = new UIRect.AnchorPoint(0);
+            mainPanel.bottomAnchor = new UIRect.AnchorPoint(0);
+            mainPanel.alpha = 1f;
+            mainPanel.Refresh();
+        }
+
         public static void AddButtonToMainMenu(string name, string title, EventDelegate.Callback buttonClickCallback, int order)
         {
             try

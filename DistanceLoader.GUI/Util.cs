@@ -10,7 +10,7 @@ namespace DistanceLoader.GUI
     {
         public static void SetTextOnUIElement(string GameObjectName, string Text, int fontSize = -1)
         {
-            var elementRoot = GameObject.Find("DistanceTitle");
+            var elementRoot = GameObject.Find(GameObjectName);
             if (elementRoot == null) return;
 
             var uiElement = elementRoot.GetComponentInChildren<UILabel>();

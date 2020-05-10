@@ -49,6 +49,9 @@ namespace DistanceLoader.Loader.Core
                 SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
                 SceneManager.activeSceneChanged += SceneManagerOnactiveSceneChanged;
                 SceneManager.sceneUnloaded += SceneManagerOnsceneUnloaded;
+
+                //Skips the Distance splash screen.
+                SceneManager.LoadScene("MainMenu");
             }
             catch (Exception ex)
             {
@@ -70,18 +73,21 @@ namespace DistanceLoader.Loader.Core
                 {
                     if (newScene.name == "MainMenu")
                     {
+
+                        DistanceLoader.GUI.MainMenu.Modifications.MoveMenuButtonsAndLogo();
+
                         Util.Logger.Instance.Log($"[SceneManagerOnactiveSceneChanged] Starting MainMenu modifications");
                         DistanceLoader.GUI.Util.SetTextOnUIElement("DistanceTitle", "Distance Mod Loader", 46);
 
                         DistanceLoader.GUI.MainMenu.Modifications.AddButtonToMainMenu("DistanceLoaderSettings",
-                            "Distance Loader Settings", new DistanceLoaderMenuLogic().OnClick, 98);
+                            "Distance Loader Settings", new DistanceLoaderMenuLogic().DistanceLoaderSettings_OnClick, 98);
 
                         DistanceLoader.GUI.MainMenu.Modifications.AddButtonToMainMenu("AboutDistanceLoader",
-                            "About Distance Loader", new DistanceLoaderMenuLogic().OnClick, 99);
+                            "About Distance Loader", new DistanceLoaderMenuLogic().DistanceLoaderAbout_OnClick, 99);
                     }
 
 
-                    Util.ObjectDumper.DumpGameObjects(newScene.GetRootGameObjects(), 2);
+                    //Util.ObjectDumper.DumpGameObjects(newScene.GetRootGameObjects(), 2);
 
                 }
             }
