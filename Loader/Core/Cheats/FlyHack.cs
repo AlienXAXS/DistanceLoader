@@ -38,33 +38,43 @@ namespace DistanceLoader.Core.Cheats
         private void ThreadedHack()
         {
             var player = G.Sys.PlayerManager_.Current_;
-
-            while (isActive)
+            try
             {
-                var playerVehicle = player.playerData_.LocalCar_;
-
-                if (playerVehicle != null)
+                while (isActive)
                 {
-                    var playerPosition = new Vector3(playerVehicle.transform.position.x,
-                        playerVehicle.transform.position.y, playerVehicle.transform.position.z);
+                    var playerVehicle = player.playerData_.LocalCar_;
 
-                    if (G.Sys.InputManager_.GetKey(InputAction.SteerLeft))
+                    if (playerVehicle != null)
                     {
-                        playerPosition.Set(playerPosition.x - 20, playerPosition.y, playerPosition.z);
-                        playerVehicle.transform.position = playerPosition; //Update the position
+                        var playerPosition = new Vector3(playerVehicle.transform.position.x,
+                            playerVehicle.transform.position.y, playerVehicle.transform.position.z);
+
+                        if (G.Sys.InputManager_.GetKey(InputAction.SteerLeft))
+                        {
+                            playerPosition.Set(playerPosition.x - 20, playerPosition.y, playerPosition.z);
+                            playerVehicle.transform.position = playerPosition; //Update the position
+                        }
+
+                        if (G.Sys.InputManager_.GetKey(InputAction.SteerRight))
+                        {
+                            playerPosition.Set(playerPosition.x + 20, playerPosition.y, playerPosition.z);
+                            //playerVehicle.transform.position = playerPosition; //Update the position
+                        }
+
+                        PlayerDataLocal.FirstLocalPlayer_.ResetPosition_.Set(playerPosition.x, playerPosition.y,
+                            playerPosition.z);
                     }
 
-                    if (G.Sys.InputManager_.GetKey(InputAction.SteerRight))
-                    {
-                        playerPosition.Set(playerPosition.x + 20, playerPosition.y, playerPosition.z);
-                        //playerVehicle.transform.position = playerPosition; //Update the position
-                    }
-
-                    PlayerDataLocal.FirstLocalPlayer_.ResetPosition_.Set(playerPosition.x, playerPosition.y,
-                        playerPosition.z);
+                    Thread.Sleep(30);
                 }
-
-                Thread.Sleep(30);
+            }
+            catch (ThreadAbortException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                Util.Logger.Instance.Log($"[FlyHack-ThreadedHack] Exception", ex);
             }
         }
 

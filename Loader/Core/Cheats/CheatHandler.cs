@@ -8,10 +8,9 @@ using UnityEngine.SceneManagement;
 
 namespace DistanceLoader.Core.Cheats
 {
-    class CheatHandler : IDisposable
+    class CheatHandler
     {
         private readonly List<CheatDefinition> cheatList = new List<CheatDefinition>();
-        private bool isShutdown = false;
         private string lastLevelName = "";
 
         public void LoadCheats()
@@ -37,7 +36,20 @@ namespace DistanceLoader.Core.Cheats
             Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Waiting for player car to be ready.");
             while (G.Sys.PlayerManager_?.Current_?.playerData_?.LocalCar_ == null)
             {
-                Thread.Sleep(1000);
+                try
+                {
+                    Thread.Sleep(1000);
+                }
+                catch (ThreadAbortException)
+                {
+                    Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Thread Aborted");
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Exception", ex);
+                    return;
+                }
             }
             Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Player vehicle found");
 
@@ -49,58 +61,74 @@ namespace DistanceLoader.Core.Cheats
 
         private void DetectCheat()
         {
+            Util.Logger.Instance.Log("[CheatHandler-DetectCheat] Starting Cheat Key Input Detection!");
+
             var inputManager = G.Sys.InputManager_;
             var cheatCanActive = false;
             var expectKeyUp = false;
 
-            while (!isShutdown)
+            while (!Util.ThreadManager.Instance.GameShutdownInitiated)
             {
-                foreach (var cheat in cheatList)
+                try
                 {
-                    if (!expectKeyUp)
+                    foreach (var cheat in cheatList)
                     {
-                        var pressedKeyCount = 0;
-                        foreach (var key in cheat.keyCombination)
+                        if (!expectKeyUp)
                         {
-                            if ( inputManager.GetKey(key) )
-                                pressedKeyCount++;
-                        }
-
-                        if (pressedKeyCount == cheat.keyCombination.Count)
-                        {
-                            cheatCanActive = true;
-                            expectKeyUp = true;
-                        }
-                    }
-                    else
-                    {
-                        InputStates inputStates = G.Sys.InputManager_.GetInputStates(-1);
-                        foreach (var key in cheat.keyCombination)
-                        {
-                            if (inputStates.GetReleased(key))
+                            var pressedKeyCount = 0;
+                            foreach (var key in cheat.keyCombination)
                             {
-                                expectKeyUp = false;
-                            };
-                        }
-
-                        if (expectKeyUp == false && cheatCanActive)
-                        {
-                            AudioManager.PostEvent("Play_VocalGPS");
-                            switch (cheat.isActive)
-                            {
-                                case true:
-                                    Util.Logger.Instance.Log($"[CheatHandler] Cheat {cheat.Name} Stopping");
-                                    cheat.Stop();
-                                    break;
-                                case false:
-                                    Util.Logger.Instance.Log($"[CheatHandler] Cheat {cheat.Name} Starting");
-                                    cheat.Start();
-                                    break;
+                                if ( inputManager.GetKey(key) )
+                                    pressedKeyCount++;
                             }
 
-                            cheatCanActive = false;
+                            if (pressedKeyCount == cheat.keyCombination.Count)
+                            {
+                                cheatCanActive = true;
+                                expectKeyUp = true;
+                            }
+                        }
+                        else
+                        {
+                            InputStates inputStates = G.Sys.InputManager_.GetInputStates(-1);
+                            foreach (var key in cheat.keyCombination)
+                            {
+                                if (inputStates.GetReleased(key))
+                                {
+                                    expectKeyUp = false;
+                                };
+                            }
+
+                            if (expectKeyUp == false && cheatCanActive)
+                            {
+                                AudioManager.PostEvent("Play_VocalGPS");
+                                switch (cheat.isActive)
+                                {
+                                    case true:
+                                        Util.Logger.Instance.Log($"[CheatHandler-DetectCheat] Cheat {cheat.Name} Stopping");
+                                        cheat.Stop();
+                                        break;
+                                    case false:
+                                        Util.Logger.Instance.Log($"[CheatHandler-DetectCheat] Cheat {cheat.Name} Starting");
+                                        cheat.Start();
+                                        break;
+                                }
+
+                                cheatCanActive = false;
+                            }
                         }
                     }
+                    Thread.Sleep(500);
+                }
+                catch (ThreadAbortException)
+                {
+                    Util.Logger.Instance.Log("[CheatHandler-DetectCheat] Thread Aborted");
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Util.Logger.Instance.Log("[CheatHandler-DetectCheat] Exception", ex);
+                    return;
                 }
             }
         }
@@ -108,7 +136,7 @@ namespace DistanceLoader.Core.Cheats
         public void DebugMode()
         {
             Util.Logger.Instance.Log("[CheatHandler] Debug Mode Activating");
-            var debugThread = new Thread(DebugThread) {IsBackground = true};
+            var debugThread = Util.ThreadManager.Instance.CreateNewThread(DebugThread);
             debugThread.Start();
             Util.Logger.Instance.Log("[CheatHandler] Debug Mode Activated");
         }
@@ -116,7 +144,7 @@ namespace DistanceLoader.Core.Cheats
         private void DebugThread()
         {
             Util.Logger.Instance.Log("[CheatHandler] Debug Thread Started");
-            while (!isShutdown)
+            while (!Util.ThreadManager.Instance.GameShutdownInitiated)
             {
                 if (lastLevelName != ApplicationEx.LoadedLevelName_)
                 {
@@ -127,11 +155,6 @@ namespace DistanceLoader.Core.Cheats
                 Thread.Sleep(1000);
             }
             Util.Logger.Instance.Log("[CheatHandler] Debug Thread Ended");
-        }
-
-        public void Dispose()
-        {
-            isShutdown = true;
         }
     }
 }

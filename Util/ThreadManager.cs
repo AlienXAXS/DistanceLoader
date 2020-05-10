@@ -18,6 +18,16 @@ namespace DistanceLoader.Util
             Thread = new Thread(action);
         }
 
+        public int GetThreadId()
+        {
+            return Thread.ManagedThreadId;
+        }
+
+        public string GetThreadActionMethodName()
+        {
+            return Action.Method.Name;
+        }
+
         public void Kill()
         {
             Thread.Abort();
@@ -35,6 +45,8 @@ namespace DistanceLoader.Util
         private static readonly ThreadManager _instance;
 
         private readonly List<ThreadMemory> threads = new List<ThreadMemory>();
+
+        public bool GameShutdownInitiated = false;
 
         public ThreadMemory CreateNewThread(ThreadStart action)
         {
@@ -57,6 +69,7 @@ namespace DistanceLoader.Util
         {
             foreach (var thread in threads)
             {
+                Util.Logger.Instance.Log($"[ThreadManager-KillAllThreads] Attempting to kill thread {thread.GetThreadId()} on {thread.GetThreadActionMethodName()}");
                 thread.Kill();
             }
         }
