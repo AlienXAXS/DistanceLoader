@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistanceLoader.Core", "Load
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistanceLoader.Util", "Util\DistanceLoader.Util.csproj", "{AFC16368-C573-4464-8B17-74FAF4017F91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistanceLoader.GUI", "DistanceLoader.GUI\DistanceLoader.GUI.csproj", "{C7C906C0-3E9F-46A9-9250-8771E0963344}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{AFC16368-C573-4464-8B17-74FAF4017F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFC16368-C573-4464-8B17-74FAF4017F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFC16368-C573-4464-8B17-74FAF4017F91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7C906C0-3E9F-46A9-9250-8771E0963344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7C906C0-3E9F-46A9-9250-8771E0963344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7C906C0-3E9F-46A9-9250-8771E0963344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7C906C0-3E9F-46A9-9250-8771E0963344}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AFC16368-C573-4464-8B16-74FAF4017F91} = {55D05C8A-4B3A-47C0-A542-3DCC4377A6A5}
+		{C7C906C0-3E9F-46A9-9250-8771E0963344} = {55D05C8A-4B3A-47C0-A542-3DCC4377A6A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {269DD5E1-8ABE-4024-BF72-616783B7C1AD}
