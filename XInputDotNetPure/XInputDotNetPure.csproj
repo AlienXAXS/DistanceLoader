@@ -55,6 +55,10 @@
     <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DistanceLoader.GUI\DistanceLoader.GUI.csproj">
+      <Project>{c7c906c0-3e9f-46a9-9250-8771e0963344}</Project>
+      <Name>DistanceLoader.GUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Loader\Core\DistanceLoader.Core.csproj">
       <Project>{afc16368-c573-4464-8b16-74faf4017f91}</Project>
       <Name>DistanceLoader.Core</Name>
@@ -66,7 +70,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y $(TargetDir)*.* "C:\Program Files (x86)\Steam\steamapps\common\Distance\Distance_Data\Managed\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y $(TargetDir)*.dll "C:\Program Files (x86)\Steam\steamapps\common\Distance\Distance_Data\Managed\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>start /min C:\Users\AlienX\Documents\GitHub\DistanceLoader\lib\KillDistance.bat</PreBuildEvent>
