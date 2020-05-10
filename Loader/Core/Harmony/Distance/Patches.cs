@@ -42,6 +42,10 @@ namespace DistanceLoader.Core.Harmony.Distance
                     AccessTools.Method(typeof(SharpObject), "WasSharpEdgeHit"),
                     AccessTools.Method(typeof(SharpObjectPatch), "WasSharpEdgeHit"));
 
+                patchWrapper.NewPostfixPatch(
+                    AccessTools.Method(typeof(GameManager), "QuitGame"),
+                    AccessTools.Method(typeof(GameManagerPatch), "QuitGame"));
+
                 Util.Logger.Instance.Log($"[ApplyPatches] Applying them via Harmony now");
                 return patchWrapper.ApplyPatches();
             }

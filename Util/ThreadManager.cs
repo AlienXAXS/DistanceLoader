@@ -29,7 +29,7 @@ namespace DistanceLoader.Util
         }
     }
 
-    public class ThreadManager
+    public class ThreadManager : IDisposable
     {
         public static ThreadManager Instance = _instance ?? (_instance = new ThreadManager());
         private static readonly ThreadManager _instance;
@@ -59,6 +59,11 @@ namespace DistanceLoader.Util
             {
                 thread.Kill();
             }
+        }
+
+        public void Dispose()
+        {
+            KillAllThreads();
         }
     }
 }

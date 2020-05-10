@@ -56,11 +56,12 @@
     <Compile Include="Harmony\Distance\AkGameObjectPatch.cs" />
     <Compile Include="Harmony\Distance\CheatMenuPatch.cs" />
     <Compile Include="Harmony\Distance\CheatCodeLogicPatch.cs" />
+    <Compile Include="Harmony\Distance\GameManagerPatch.cs" />
     <Compile Include="Harmony\Distance\SharpObjectPatch.cs" />
     <Compile Include="Harmony\GenericPatches\NOP.cs" />
     <Compile Include="Harmony\Distance\Patches.cs" />
     <Compile Include="Harmony\GUITester.cs" />
-    <Compile Include="Harmony\GUI\MainMenuModification.cs" />
+    <Compile Include="Harmony\GUI\DistanceLoaderMenuLogic.cs" />
     <Compile Include="Harmony\PatchManager.cs" />
     <Compile Include="Harmony\PatchWrapper.cs" />
     <Compile Include="Loader.cs" />
@@ -86,6 +87,7 @@
   <ItemGroup>
     <None Include="Resources\NeonTubes" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

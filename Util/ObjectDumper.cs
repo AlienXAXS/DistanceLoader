@@ -26,12 +26,12 @@ namespace DistanceLoader.Util
         public static void DumpGameObjects(GameObject root, bool dumpParent = true, string path = "")
         {
 
+            // Log out the root components first, we need those :)
             var rootComponents = new List<UnityEngine.Component>();
             foreach (var component in root.GetComponents<UnityEngine.Component>())
             {
                 Util.Logger.Instance.Log($"[DumpGameObjects]\r\n=========== {path} (Comp) ===========\r\n{Util.ObjectDumper.Dump(component, 5, dumpParent)}");
             }
-
 
             foreach (var child in root.GetChildren())
             {
@@ -142,7 +142,7 @@ namespace DistanceLoader.Util
                         }
                         catch (Exception ex)
                         {
-                            Util.Logger.Instance.Log($"[DumpElement] Exception", ex);
+                            //Util.Logger.Instance.Log($"[DumpElement] Exception", ex);
                         }
                     }
                 }

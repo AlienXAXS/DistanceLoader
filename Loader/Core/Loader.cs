@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using System.Linq;
 using System.Net.Mime;
+using Component = UnityEngine.Component;
 
 namespace DistanceLoader.Loader.Core
 {
@@ -45,13 +46,6 @@ namespace DistanceLoader.Loader.Core
                 var cheatEngine = new DistanceLoader.Core.Cheats.CheatHandler();
                 cheatEngine.LoadCheats();
 
-                GameObject newMenu = new GameObject("NewMenu");
-                UnityEngine.Object.DontDestroyOnLoad((Object)newMenu);
-                newMenu.AddComponent<MainMenuModification>();
-
-                var MainMenu = SceneManager.GetActiveScene();
-                Util.Logger.Instance.Log($"[SceneManager-newMenu] -> {Util.ObjectDumper.Dump(newMenu)}");
-
                 SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
                 SceneManager.activeSceneChanged += SceneManagerOnactiveSceneChanged;
                 SceneManager.sceneUnloaded += SceneManagerOnsceneUnloaded;
@@ -62,35 +56,72 @@ namespace DistanceLoader.Loader.Core
             }
         }
 
+        public void TestMethod()
+        {
+            Util.Logger.Instance.Log("CLICKY CLICKY");
+        }
+
         private void SceneManagerOnactiveSceneChanged(Scene prevScene, Scene newScene)
         {
             try
             {
-                Util.Logger.Instance.Log(
-                    $"[SceneManagerOnactiveSceneChanged] {prevScene.name} -> {newScene.name} (IsLoaded:{newScene.isLoaded})");
+                Util.Logger.Instance.Log($"[SceneManagerOnactiveSceneChanged] {prevScene.name} -> {newScene.name} (IsLoaded:{newScene.isLoaded})");
                 if (newScene.isLoaded)
                 {
+                    if (newScene.name != "MainMenu")
+                        return;
+
+                    Util.Logger.Instance.Log($"[SceneManagerOnactiveSceneChanged] Starting MainMenu modifications");
+
                     //var objects = newScene.GetRootGameObjects();
                     //DumpGameObjects(objects);
 
                     var VersionNumberLabel = GameObject.Find("DistanceTitle");
                     if (VersionNumberLabel != null)
                     {
-                        Util.Logger.Instance.Log("############################################## Attempting to change the version number");
                         VersionNumberLabel.GetComponentInChildren<UILabel>().text="DISTANCE MOD LOADER";
                         VersionNumberLabel.GetComponentInChildren<UILabel>().fontSize = 46;
                     }
-                    
+
                     var distanceLoaderMenuItem = new GameObject();
-                    //Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
                     distanceLoaderMenuItem.name = "DistanceLoaderMenuItem";
                     distanceLoaderMenuItem.SetActive(false);
                     distanceLoaderMenuItem.transform.SetParent(GameObject.Find("MainButtons").transform);
                     distanceLoaderMenuItem.transform.SetSiblingIndex(1);
+                    distanceLoaderMenuItem.layer = 22;
+                    distanceLoaderMenuItem.transform.position += new Vector3(100, 100, 0);
+
+                    UIExButton newUiExButton = distanceLoaderMenuItem.AddComponent<UIExButton>();
+                    var distanceLoaderMenuLogic = new DistanceLoaderMenuLogic();
+                    var distanceLoaderMenuButton = new EventDelegate(distanceLoaderMenuLogic.OnClick) {oneShot = false};
+                    Util.Logger.Instance.Log($"Button Valid? {distanceLoaderMenuButton.isValid} | {distanceLoaderMenuButton.methodName}");
+
+                    newUiExButton.onClick = new List<EventDelegate>(){ distanceLoaderMenuButton };
+                    newUiExButton.transform.SetParent(distanceLoaderMenuItem.transform);
+                    newUiExButton.SetState(UIButtonColor.State.Normal, true);
+                    newUiExButton.disabledColor = Color.grey;
+                    newUiExButton.defaultColor = Color.white;
+                    newUiExButton.SetButtonColor(Color.white);
+                    newUiExButton.enabled = true;
+
+
+                    BoxCollider newBoxCollider = distanceLoaderMenuItem.AddComponent<BoxCollider>(); 
+                    newBoxCollider.transform.SetParent(distanceLoaderMenuItem.transform);
+                    newBoxCollider.size = new Vector3(205f, 36f, 0f);
+                    newBoxCollider.center = new Vector3(-1.2f, -0.2f, 0f);
+                    newBoxCollider.enabled = true;
+                    newBoxCollider.isTrigger = true;
+
+
+                    UIKeyNavigation newUiKeyNavigation = distanceLoaderMenuItem.AddComponent<UIKeyNavigation>();
+                    newUiKeyNavigation.transform.SetParent(distanceLoaderMenuItem.transform);
+                    newUiKeyNavigation.startsSelected = false;
+                    newUiKeyNavigation.name = "DistanceLoader";
+                    
 
                     UILabel newUiLabel = distanceLoaderMenuItem.AddComponent<UILabel>();
                     newUiLabel.name = "CustomLabelAGN";
-                    newUiLabel.text = "Custom Menu Item!";
+                    newUiLabel.text = "Distance Mod Loader Settings";
                     newUiLabel.fontStyle = FontStyle.Italic;
                     newUiLabel.fontSize = 32;
                     newUiLabel.fontStyle = FontStyle.Normal;
@@ -105,10 +136,8 @@ namespace DistanceLoader.Loader.Core
                     UILabel _uiLabel = MainMenuButtons_Campaign.GetComponentInChildren<UILabel>();
                     _uiLabel.color = Color.green;
 
-                    Util.Logger.Instance.Log("#################################################################################### CURRENT MENU ITEM");
-                    Util.ObjectDumper.DumpGameObjects(MainMenuButtons_Campaign, false);
                     Util.Logger.Instance.Log("#################################################################################### NEW MENU ITEM");
-                    Util.ObjectDumper.DumpGameObjects(distanceLoaderMenuItem, false);
+                    //Util.ObjectDumper.DumpGameObjects(distanceLoaderMenuItem, false);
                     Util.Logger.Instance.Log("#################################################################################### END");
 
                 }

@@ -32,6 +32,8 @@ namespace DistanceLoader.Util
                     if (exception != null)
                     {
                         System.IO.File.AppendAllText(LogFileName, $"{exception}{Environment.NewLine}");
+                        if ( exception.InnerException != null )
+                            System.IO.File.AppendAllText(LogFileName, $"{exception.InnerException}{Environment.NewLine}");
                     }
                 }
                 catch (Exception ex)
@@ -41,7 +43,7 @@ namespace DistanceLoader.Util
             }
         }
         
-        public void LogIncrementValue(string tag, int value = -1)
+        public void IncrementLogValue(string tag, int value = -1)
         {
             if ( value != -1 )
                 _incrementValue = value;
