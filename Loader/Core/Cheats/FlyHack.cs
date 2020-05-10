@@ -31,7 +31,7 @@ namespace DistanceLoader.Core.Cheats
 
             isActive = true;
 
-            var cheatThread = new Thread(ThreadedHack){IsBackground = true};
+            var cheatThread = Util.ThreadManager.Instance.CreateNewThread(ThreadedHack);
             cheatThread.Start();
         }
 

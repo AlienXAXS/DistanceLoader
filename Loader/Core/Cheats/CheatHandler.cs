@@ -24,13 +24,10 @@ namespace DistanceLoader.Core.Cheats
 
             Util.Logger.Instance.Log($"[CheatHandler] I have {cheatList.Count} cheats ready to fire!");
 
-            var cheatDetectionThread = new Thread(DetectCheat) { IsBackground = true };
+            var cheatDetectionThread = Util.ThreadManager.Instance.CreateNewThread(DetectCheat);
             cheatDetectionThread.Start();
 
-
-
-            var waitForPlayerThread = new Thread(WaitForPlayer);
-            waitForPlayerThread.IsBackground = true;
+            var waitForPlayerThread = Util.ThreadManager.Instance.CreateNewThread(WaitForPlayer);
             waitForPlayerThread.Start();
 
         }
