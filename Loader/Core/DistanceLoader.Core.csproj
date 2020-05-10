@@ -73,6 +73,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DistanceLoader.GUI\DistanceLoader.GUI.csproj">
+      <Project>{c7c906c0-3e9f-46a9-9250-8771e0963344}</Project>
+      <Name>DistanceLoader.GUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Util\DistanceLoader.Util.csproj">
       <Project>{afc16368-c573-4464-8b17-74faf4017f91}</Project>
       <Name>DistanceLoader.Util</Name>
