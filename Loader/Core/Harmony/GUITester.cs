@@ -6,9 +6,8 @@ using UnityEngine;
 
 namespace DistanceLoader.Core.Harmony
 {
-    public class GUITester : MonoBehaviour
+    public class GUITester : UILabel
     {
-
         public GUITester()
         {
             Util.Logger.Instance.Log("[GUITester-MonoBehaviour] Constructor");
@@ -22,7 +21,7 @@ namespace DistanceLoader.Core.Harmony
                 GUIStyle guiStyle = new GUIStyle();
                 guiStyle.normal.textColor = Color.white;
                 string str = "Hello there!";
-                GUI.Label(new Rect(100.0f, 100.0f, (float) Screen.width, (float) Screen.height), str, guiStyle);
+                UnityEngine.GUI.Label(new Rect(100.0f, 100.0f, (float) Screen.width, (float) Screen.height), str, guiStyle);
             }
             catch (Exception ex)
             {

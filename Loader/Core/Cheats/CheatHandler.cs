@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DistanceLoader.Core.Cheats
 {
@@ -39,7 +40,6 @@ namespace DistanceLoader.Core.Cheats
             Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Waiting for player car to be ready.");
             while (G.Sys.PlayerManager_?.Current_?.playerData_?.LocalCar_ == null)
             {
-                Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Tick");
                 Thread.Sleep(1000);
             }
             Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Player vehicle found");

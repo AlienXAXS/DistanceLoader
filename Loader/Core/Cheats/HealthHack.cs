@@ -33,7 +33,6 @@ namespace DistanceLoader.Core.Cheats
                 return;
             }
 
-
             this.playerEvents_ = this.playerData_.Events_;
             this.playerEvents_.SubscribeToCarInstantiateHelper(new InstancedEvent<CarInstantiate.Data>.Delegate(this.OnPlayerEventCarInstantiate));
             this.playerEvents_.Subscribe<Impact.Data>(new InstancedEvent<Impact.Data>.Delegate(this.OnCarEventImpact));

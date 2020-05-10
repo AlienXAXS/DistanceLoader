@@ -11,6 +11,8 @@ namespace DistanceLoader.Util
 
         private readonly object _lockable = new object();
 
+        private int _incrementValue = 0;
+
         public Logger()
         {
             System.IO.File.WriteAllText(LogFileName, "");
@@ -37,6 +39,16 @@ namespace DistanceLoader.Util
                     // what do now?
                 }
             }
+        }
+        
+        public void LogIncrementValue(string tag, int value = -1)
+        {
+            if ( value != -1 )
+                _incrementValue = value;
+
+            Log($"< IncrementValue | {tag} > {_incrementValue}");
+
+            _incrementValue++;
         }
     }
 }
