@@ -68,77 +68,20 @@ namespace DistanceLoader.Loader.Core
                 Util.Logger.Instance.Log($"[SceneManagerOnactiveSceneChanged] {prevScene.name} -> {newScene.name} (IsLoaded:{newScene.isLoaded})");
                 if (newScene.isLoaded)
                 {
-                    if (newScene.name != "MainMenu")
-                        return;
-
-                    Util.Logger.Instance.Log($"[SceneManagerOnactiveSceneChanged] Starting MainMenu modifications");
-
-                    //var objects = newScene.GetRootGameObjects();
-                    //DumpGameObjects(objects);
-
-                    var VersionNumberLabel = GameObject.Find("DistanceTitle");
-                    if (VersionNumberLabel != null)
+                    if (newScene.name == "MainMenu")
                     {
-                        VersionNumberLabel.GetComponentInChildren<UILabel>().text="DISTANCE MOD LOADER";
-                        VersionNumberLabel.GetComponentInChildren<UILabel>().fontSize = 46;
+                        Util.Logger.Instance.Log($"[SceneManagerOnactiveSceneChanged] Starting MainMenu modifications");
+                        DistanceLoader.GUI.Util.SetTextOnUIElement("DistanceTitle", "Distance Mod Loader", 46);
+
+                        DistanceLoader.GUI.MainMenu.Modifications.AddButtonToMainMenu("DistanceLoaderSettings",
+                            "Distance Loader Settings", new DistanceLoaderMenuLogic().OnClick, 98);
+
+                        DistanceLoader.GUI.MainMenu.Modifications.AddButtonToMainMenu("AboutDistanceLoader",
+                            "About Distance Loader", new DistanceLoaderMenuLogic().OnClick, 99);
                     }
 
-                    var distanceLoaderMenuItem = new GameObject();
-                    distanceLoaderMenuItem.name = "DistanceLoaderMenuItem";
-                    distanceLoaderMenuItem.SetActive(false);
-                    distanceLoaderMenuItem.transform.SetParent(GameObject.Find("MainButtons").transform);
-                    distanceLoaderMenuItem.transform.SetSiblingIndex(1);
-                    distanceLoaderMenuItem.layer = 22;
-                    distanceLoaderMenuItem.transform.position += new Vector3(100, 100, 0);
 
-                    UIExButton newUiExButton = distanceLoaderMenuItem.AddComponent<UIExButton>();
-                    var distanceLoaderMenuLogic = new DistanceLoaderMenuLogic();
-                    var distanceLoaderMenuButton = new EventDelegate(distanceLoaderMenuLogic.OnClick) {oneShot = false};
-                    Util.Logger.Instance.Log($"Button Valid? {distanceLoaderMenuButton.isValid} | {distanceLoaderMenuButton.methodName}");
-
-                    newUiExButton.onClick = new List<EventDelegate>(){ distanceLoaderMenuButton };
-                    newUiExButton.transform.SetParent(distanceLoaderMenuItem.transform);
-                    newUiExButton.SetState(UIButtonColor.State.Normal, true);
-                    newUiExButton.disabledColor = Color.grey;
-                    newUiExButton.defaultColor = Color.white;
-                    newUiExButton.SetButtonColor(Color.white);
-                    newUiExButton.enabled = true;
-
-
-                    BoxCollider newBoxCollider = distanceLoaderMenuItem.AddComponent<BoxCollider>(); 
-                    newBoxCollider.transform.SetParent(distanceLoaderMenuItem.transform);
-                    newBoxCollider.size = new Vector3(205f, 36f, 0f);
-                    newBoxCollider.center = new Vector3(-1.2f, -0.2f, 0f);
-                    newBoxCollider.enabled = true;
-                    newBoxCollider.isTrigger = true;
-
-
-                    UIKeyNavigation newUiKeyNavigation = distanceLoaderMenuItem.AddComponent<UIKeyNavigation>();
-                    newUiKeyNavigation.transform.SetParent(distanceLoaderMenuItem.transform);
-                    newUiKeyNavigation.startsSelected = false;
-                    newUiKeyNavigation.name = "DistanceLoader";
-                    
-
-                    UILabel newUiLabel = distanceLoaderMenuItem.AddComponent<UILabel>();
-                    newUiLabel.name = "CustomLabelAGN";
-                    newUiLabel.text = "Distance Mod Loader Settings";
-                    newUiLabel.fontStyle = FontStyle.Italic;
-                    newUiLabel.fontSize = 32;
-                    newUiLabel.fontStyle = FontStyle.Normal;
-                    newUiLabel.color = Color.white;
-                    newUiLabel.ProcessText();
-                    newUiLabel.Update();
-                    newUiLabel.trueTypeFont = GameObject.Find("MainButtons").GetChild(0).GetComponentInChildren<UILabel>().trueTypeFont;
-                    newUiLabel.transform.SetParent(distanceLoaderMenuItem.transform);
-                    distanceLoaderMenuItem.SetActive(true);
-
-                    var MainMenuButtons_Campaign = GameObject.Find("MainButtons").GetChild(0);
-                    UILabel _uiLabel = MainMenuButtons_Campaign.GetComponentInChildren<UILabel>();
-                    _uiLabel.color = Color.green;
-
-                    Util.Logger.Instance.Log("#################################################################################### NEW MENU ITEM");
-                    //Util.ObjectDumper.DumpGameObjects(distanceLoaderMenuItem, false);
-                    Util.Logger.Instance.Log("#################################################################################### END");
+                    Util.ObjectDumper.DumpGameObjects(newScene.GetRootGameObjects(), 2);
 
                 }
             }
