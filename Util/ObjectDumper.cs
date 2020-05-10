@@ -17,22 +17,29 @@ namespace DistanceLoader.Util
         private readonly bool _dumpParentObject;
 
 
-        public static void DumpGameObjects(GameObject[] objects)
+        public static void DumpGameObjects(GameObject[] objects, int depth = -1)
         {
             foreach (var child in objects)
-                DumpGameObjects(child);
+                DumpGameObjects(child, false, depth:depth);
         }
 
-        public static void DumpGameObjects(GameObject root, bool dumpParent = true, string path = "")
+        public static void DumpGameObjects(GameObject root, bool dumpParent = true, string path = "", int depth = -1)
         {
+            int currentDepth = 0;
+            int currentDepthInner = 0;
 
             // Log out the root components first, we need those :)
             var rootComponents = new List<UnityEngine.Component>();
             foreach (var component in root.GetComponents<UnityEngine.Component>())
             {
                 Util.Logger.Instance.Log($"[DumpGameObjects]\r\n=========== {path} (Comp) ===========\r\n{Util.ObjectDumper.Dump(component, 5, dumpParent)}");
+
+                currentDepth++;
+                if (depth != -1 && currentDepth > depth)
+                    break;
             }
 
+            currentDepth = 0;
             foreach (var child in root.GetChildren())
             {
                 path = $"{path} -> {child.name}";
@@ -42,9 +49,19 @@ namespace DistanceLoader.Util
                 foreach (var component in child.GetComponents<UnityEngine.Component>())
                 {
                     Util.Logger.Instance.Log($"[DumpGameObjects]\r\n=========== {path} (Comp) ===========\r\n{Util.ObjectDumper.Dump(component, 5, dumpParent)}");
+
+                    currentDepthInner++;
+                    if (depth != -1 && currentDepthInner > depth)
+                        break;
                 }
 
-                DumpGameObjects(child, dumpParent, path);
+                DumpGameObjects(child, dumpParent, path, depth);
+
+                currentDepth++;
+                if (depth != -1 && currentDepth > depth)
+                    break;
+
+                currentDepthInner = 0;
             }
         }
 
