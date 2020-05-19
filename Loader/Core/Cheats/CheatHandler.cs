@@ -16,6 +16,7 @@ namespace DistanceLoader.Core.Cheats
         public bool AlwaysEnableJump = false;
         public bool AlwaysEnableWings = false;
         public bool AlwaysEnableJets = false;
+        public bool RemoveRoadBlockers = false;
     }
 
     public class CheatHandler
@@ -59,6 +60,100 @@ namespace DistanceLoader.Core.Cheats
         private void OnLocalCarCreated()
         {
             var localCar = G.Sys.PlayerManager_.Current_.playerData_.LocalCar_;
+
+            if ( GameObject.Find("DMLCheatHookGO") )
+                GameObject.Find("DMLCheatHookGO").Destroy();
+
+            GameObject gameObject = new GameObject("DMLCheatHookGO");
+            UnityEngine.Object.DontDestroyOnLoad((UnityEngine.Object)gameObject);
+            gameObject.AddComponent<DMLCheatHookGO>();
+
+            if (Cheats.RemoveRoadBlockers)
+            {
+                GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+                foreach (var go in allObjects)
+                {
+                    if (go.name.StartsWith("VirusBlocker"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.StartsWith("VirusBlocks"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.Contains("PopUp"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.Contains("Popup") && go.name.Contains("Shard"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.Contains("Roller"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.Contains("VendingMachine"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.Contains("VirusShard"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.Equals("VirusSaw"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.Equals("Saw"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+
+                    if (go.name.Contains("Pillar"))
+                    {
+                        Util.Logger.Instance.Log(
+                            $"[Road-Blocker-Remover-Cheat] Removed a {go.name} at {go.transform.position}");
+                        go.Destroy();
+                        continue;
+                    }
+                }
+            }
 
             if (Cheats.InfiniteBoost)
             {

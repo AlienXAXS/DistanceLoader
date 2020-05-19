@@ -52,7 +52,7 @@
     <Compile Include="Cheats\CheatHandler.cs" />
     <Compile Include="Cheats\FlyHack.cs" />
     <Compile Include="Cheats\CheatDefinition.cs" />
-    <Compile Include="Cheats\HealthHack.cs" />
+    <Compile Include="Cheats\DMLCheatHookGO.cs" />
     <Compile Include="DMLEvents\EventManager.cs" />
     <Compile Include="Harmony\Distance\AkGameObjectPatch.cs" />
     <Compile Include="Harmony\Distance\CheatMenuPatch.cs" />
