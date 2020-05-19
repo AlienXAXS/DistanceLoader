@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace DistanceLoader.Core.Cheats
 {
-    class HealthHack : MonoBehaviour
+    class DMLCheatHookGO : MonoBehaviour
     {
         private PlayerEvents playerEvents_;
         private PlayerDataLocal playerData_;
@@ -60,16 +60,11 @@ namespace DistanceLoader.Core.Cheats
 
         private void OnCarEventImpact(Impact.Data data)
         {
-            Util.Logger.Instance.Log($"[HealthHack] Car Impact! speed:{data.speed_} with:{data.impactedCollider_.name}");
+            Util.Logger.Instance.Log($"[HealthHack] Car Impact! speed:{data.speed_} with:{data.impactedCollider_.gameObject.name} type:{data.impactedCollider_.gameObject.GetType()}");
         }
 
         private void OnPlayerEventCarInstantiate(CarInstantiate.Data data)
         {
-            Util.Logger.Instance.Log($"[HealthHack-OnPlayerEventCarInstantiate] OnPlayerEventCarInstantiate!!!!!!!!!!!!!");
-
-            this.carLogic_ = data.car.GetComponent<CarLogic>();
-            this.carLogic_.Boost_.accelerationMul_ = 1.25f;
-            this.carLogic_.infiniteCooldown_ = true;
         }
     }
 }
