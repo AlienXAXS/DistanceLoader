@@ -11,7 +11,6 @@ namespace DistanceLoader.Core.Harmony.Distance
     {
         public static void AwakePost(ref CheatMenu __instance)
         {
-            Util.Logger.Instance.Log($"[CheatMenu - Awake Patch] Awake from {__instance.PanelObject_.name}");
         }
 
         public static bool CheatMenuPre(ref CheatMenu __instance)

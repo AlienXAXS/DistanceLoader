@@ -43,8 +43,7 @@ namespace DistanceLoader.Loader.Core
                 harmonyDistancePatcher.BeginPatching();
 
                 Util.Logger.Instance.Log("[MainThread] Starting Cheat Engine");
-                var cheatEngine = new DistanceLoader.Core.Cheats.CheatHandler();
-                cheatEngine.LoadCheats();
+                DistanceLoader.Core.Cheats.CheatHandler.Instance.LoadCheats();
 
                 SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
                 SceneManager.activeSceneChanged += SceneManagerOnactiveSceneChanged;

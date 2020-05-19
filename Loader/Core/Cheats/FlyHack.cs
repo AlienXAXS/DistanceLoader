@@ -31,8 +31,8 @@ namespace DistanceLoader.Core.Cheats
 
             isActive = true;
 
-            var cheatThread = Util.ThreadManager.Instance.CreateNewThread(ThreadedHack);
-            cheatThread.Start();
+            //var cheatThread = Util.ThreadManager.Instance.CreateNewThread(ThreadedHack);
+            //cheatThread.Start();
         }
 
         private void ThreadedHack()
@@ -81,7 +81,6 @@ namespace DistanceLoader.Core.Cheats
         public void Stop()
         {
             isActive = false;
-            G.Sys.PlayerManager_.Current_.playerData_.LocalCar_.IgnoringInput_ = false;
         }
 
         public void Dispose()

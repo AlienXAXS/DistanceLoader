@@ -7,8 +7,6 @@ namespace DistanceLoader.Core.Harmony.Distance
 {
     class CheatCodeLogicPatch
     { 
-        private static bool lol = false;
-
         public static bool Update(ref List<CheatCodeLogic.CheatCode> ___allCheatCodes_, ref bool ___invalidateAll_)
         {
             var inputManager_ = G.Sys.InputManager_;

@@ -8,55 +8,113 @@ using UnityEngine.SceneManagement;
 
 namespace DistanceLoader.Core.Cheats
 {
-    class CheatHandler
+    public class CheatMemory
+    {
+        public bool LasersNoDamage = false;
+        public bool InfiniteBoost = false;
+        public bool AlwaysEnableBoost = false;
+        public bool AlwaysEnableJump = false;
+        public bool AlwaysEnableWings = false;
+        public bool AlwaysEnableJets = false;
+    }
+
+    public class CheatHandler
     {
         private readonly List<CheatDefinition> cheatList = new List<CheatDefinition>();
         private string lastLevelName = "";
 
+        public static CheatHandler Instance = _instance ?? (_instance = new CheatHandler());
+        private static readonly CheatHandler _instance;
+
+        private const string CheatMemoryFilePath = @".\DistanceLoader\Cheats.json";
+
+        public CheatMemory Cheats = new CheatMemory();
+
         public void LoadCheats()
         {
-            if (DistanceLoader.Util.Configuration.Instance.IsDebug)
-                DebugMode();
-
             // Load our cheats
-            cheatList.Add(new FlyHack());
+            //cheatList.Add(new FlyHack());
+
+            Util.Logger.Instance.Log("[CheatHandler] Loading cheat status from JSON file");
+
+            if (System.IO.File.Exists(CheatMemoryFilePath))
+            {
+                CheatMemory cheatMemory =
+                    (CheatMemory) JsonUtility.FromJson(System.IO.File.ReadAllText(CheatMemoryFilePath),
+                        typeof(CheatMemory));
+                Cheats = cheatMemory;
+            }
+            else
+            {
+                System.IO.File.WriteAllText(CheatMemoryFilePath, JsonUtility.ToJson(Cheats, true));
+            }
 
             Util.Logger.Instance.Log($"[CheatHandler] I have {cheatList.Count} cheats ready to fire!");
-
             var cheatDetectionThread = Util.ThreadManager.Instance.CreateNewThread(DetectCheat);
             cheatDetectionThread.Start();
 
-            var waitForPlayerThread = Util.ThreadManager.Instance.CreateNewThread(WaitForPlayer);
-            waitForPlayerThread.Start();
-
+            DMLEvents.EventManager.Instance.OnLocalCarCreated += OnLocalCarCreated;
         }
 
-        private void WaitForPlayer()
+        private void OnLocalCarCreated()
         {
-            Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Waiting for player car to be ready.");
-            while (G.Sys.PlayerManager_?.Current_?.playerData_?.LocalCar_ == null)
+            var localCar = G.Sys.PlayerManager_.Current_.playerData_.LocalCar_;
+
+            if (Cheats.InfiniteBoost)
             {
-                try
+                var carLogic = localCar.gameObject.GetComponent<CarLogic>();
+                carLogic.infiniteCooldown_ = true;
+                carLogic.Boost_.accelerationMul_ = 1.15f;
+                Util.Logger.Instance.Log($"[CheatHandler-CheatActivated] Infinite Boost Energy");
+            }
+
+            if (Cheats.AlwaysEnableBoost)
+            {
+                var carBoostObject = localCar.gameObject.GetComponentWithGameObjectNullCheck<BoostGadget>();
+                if (carBoostObject != null)
                 {
-                    Thread.Sleep(1000);
-                }
-                catch (ThreadAbortException)
-                {
-                    Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Thread Aborted");
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Exception", ex);
-                    return;
+                    Util.Logger.Instance.Log("[CheatHandler-CheatActivated] Always Enable Boost Gadget");
+                    carBoostObject.SetAbilityEnabled(true, true);
                 }
             }
-            Util.Logger.Instance.Log("[HealthHack-WaitForPlayer] Player vehicle found");
 
-            // Add monobehavour cheats
-            GameObject gameObject = new GameObject("HealthHack");
-            UnityEngine.Object.DontDestroyOnLoad((UnityEngine.Object)gameObject);
-            gameObject.AddComponent<HealthHack>();
+            if ( Cheats.AlwaysEnableJets )
+            {
+                // Can do it this way too
+                //localCar.PlayerDataLocal_.CarLogic_.Wings_.SetAbilityEnabled(true,true);
+
+                var carJetObject = localCar.gameObject.GetComponentWithGameObjectNullCheck<JetsGadget>();
+                if (carJetObject != null)
+                {
+                    Util.Logger.Instance.Log("[CheatHandler-CheatActivated] Always Enable Jet Gadget");
+                    carJetObject.SetAbilityEnabled(true, true);
+                }
+            }
+
+            if (Cheats.AlwaysEnableJump)
+            {
+                var carJumpObject = localCar.gameObject.GetComponentWithGameObjectNullCheck<JumpGadget>();
+                if (carJumpObject != null)
+                {
+                    Util.Logger.Instance.Log("[CheatHandler-CheatActivated] Always Enable Jump Gadget");
+                    carJumpObject.SetAbilityEnabled(true, true);
+                }
+            }
+
+            if (Cheats.AlwaysEnableWings)
+            {
+                var carWingsObject = localCar.gameObject.GetComponentWithGameObjectNullCheck<WingsGadget>();
+                if (carWingsObject != null)
+                {
+                    Util.Logger.Instance.Log("[CheatHandler-CheatActivated] Always Enable Wings Gadget");
+                    carWingsObject.SetAbilityEnabled(true, true);
+                }
+            }
+
+            if (Cheats.LasersNoDamage)
+            {
+                Util.Logger.Instance.Log("[CheatHandler-CheatActivated] Lasers No Damage");
+            }
         }
 
         private void DetectCheat()
@@ -66,7 +124,7 @@ namespace DistanceLoader.Core.Cheats
             var inputManager = G.Sys.InputManager_;
             var cheatCanActive = false;
             var expectKeyUp = false;
-
+            
             while (!Util.ThreadManager.Instance.GameShutdownInitiated)
             {
                 try
@@ -131,30 +189,6 @@ namespace DistanceLoader.Core.Cheats
                     return;
                 }
             }
-        }
-
-        public void DebugMode()
-        {
-            Util.Logger.Instance.Log("[CheatHandler] Debug Mode Activating");
-            var debugThread = Util.ThreadManager.Instance.CreateNewThread(DebugThread);
-            debugThread.Start();
-            Util.Logger.Instance.Log("[CheatHandler] Debug Mode Activated");
-        }
-
-        private void DebugThread()
-        {
-            Util.Logger.Instance.Log("[CheatHandler] Debug Thread Started");
-            while (!Util.ThreadManager.Instance.GameShutdownInitiated)
-            {
-                if (lastLevelName != ApplicationEx.LoadedLevelName_)
-                {
-                    Util.Logger.Instance.Log($"[CheatHandler-Debug] Loaded Level Change from {lastLevelName} to {ApplicationEx.LoadedLevelName_}");
-                    lastLevelName = ApplicationEx.LoadedLevelName_;
-                }
-
-                Thread.Sleep(1000);
-            }
-            Util.Logger.Instance.Log("[CheatHandler] Debug Thread Ended");
         }
     }
 }

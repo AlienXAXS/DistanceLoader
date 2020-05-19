@@ -20,6 +20,7 @@ namespace DistanceLoader.GUI.MainMenu
             distanceLogo.leftAnchor = new UIRect.AnchorPoint(0) ;
             distanceLogo.bottomAnchor = new UIRect.AnchorPoint(0);
 
+            /*
             var rootGo = GameObject.Find("DistanceTitle");
             while (rootGo.Parent() != null)
             {
@@ -33,9 +34,9 @@ namespace DistanceLoader.GUI.MainMenu
 
                 rootGo = rootGo.Parent();
             }
+            */
 
             var mainPanel = GameObject.Find("MainButtonsPanel").GetComponent<UIPanel>();
-            DistanceLoader.Util.Logger.Instance.Log($"########## {mainPanel.name} Position:{mainPanel.transform.position} LocalPosition:{mainPanel.transform.localPosition} AnchorPosition:{mainPanel.topAnchor.rect}|{mainPanel.topAnchor.target.position} Size:{mainPanel.width}x{mainPanel.height}");
             mainPanel.transform.localPosition = new Vector3(-500f, 40f);
             mainPanel.topAnchor = new UIRect.AnchorPoint(0);
             mainPanel.rightAnchor = new UIRect.AnchorPoint(0);

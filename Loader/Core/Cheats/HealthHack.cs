@@ -65,6 +65,8 @@ namespace DistanceLoader.Core.Cheats
 
         private void OnPlayerEventCarInstantiate(CarInstantiate.Data data)
         {
+            Util.Logger.Instance.Log($"[HealthHack-OnPlayerEventCarInstantiate] OnPlayerEventCarInstantiate!!!!!!!!!!!!!");
+
             this.carLogic_ = data.car.GetComponent<CarLogic>();
             this.carLogic_.Boost_.accelerationMul_ = 1.25f;
             this.carLogic_.infiniteCooldown_ = true;

@@ -46,6 +46,22 @@ namespace DistanceLoader.Core.Harmony.Distance
                     AccessTools.Method(typeof(GameManager), "QuitGame"),
                     AccessTools.Method(typeof(GameManagerPatch), "QuitGame"));
 
+                patchWrapper.NewPrefixPatch(
+                    AccessTools.Method(typeof(Splittable), "TestAgainstLaser"),
+                    AccessTools.Method(typeof(SplittablePatch), "TestAgainstLaser"));
+
+                patchWrapper.NewPrefixPatch(
+                    AccessTools.Method(typeof(WingCorruptionZone), "SetCorruptionEnabled"),
+                    AccessTools.Method(typeof(WingCorruptionZonePatch), "SetCorruptionEnabled"));
+
+                patchWrapper.NewPostfixPatch(
+                    AccessTools.Method(typeof(StoryIntroCutsceneLogic), "OnEventPostLoad"),
+                    AccessTools.Method(typeof(StoryIntroCutsceneLogicPatch), "OnEventPostLoad"));
+
+                patchWrapper.NewPostfixPatch(
+                    AccessTools.Method(typeof(PlayerDataLocal), "InitCarVirtual"),
+                    AccessTools.Method(typeof(PlayerDataLocalPatch), "InitCarVirtual"));
+
                 Util.Logger.Instance.Log($"[ApplyPatches] Applying them via Harmony now");
                 return patchWrapper.ApplyPatches();
             }
